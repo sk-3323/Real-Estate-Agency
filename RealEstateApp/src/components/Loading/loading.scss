@@ -1,0 +1,66 @@
+.container{
+    min-height: 60vh;
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // place-content: center;
+    .shapes {
+        width: 44.8px;
+   height: 22.4px;
+   background: #070706;
+   position: relative;
+   animation: shapes-y7kkf3 1.5s infinite linear;
+}
+
+.shapes:before,
+.shapes:after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    bottom: 100%;
+    width: 50%;
+    height: 100%;
+    animation: inherit;
+    animation-name: shapes-dh54ub;
+}
+
+.shapes:before {
+    left: 0;
+    transform-origin: bottom left;
+    --s: -1;
+}
+
+.shapes:after {
+    right: 0;
+   transform-origin: bottom right;
+}
+
+@keyframes shapes-y7kkf3 {
+    0%, 10% {
+        transform: translateY(0%)    scaleY(1);
+   }
+
+   49.99% {
+      transform: translateY(-50%)  scaleY(1);
+   }
+   
+   50% {
+       transform: translateY(-50%)  scaleY(-1);
+   }
+   
+   90%, 100% {
+       transform: translateY(-100%) scaleY(-1);
+    }
+}
+
+@keyframes shapes-dh54ub {
+    10%, 90% {
+        transform: rotate(0deg);
+    }
+    
+    50% {
+        transform: rotate(calc(var(--s,1)*180deg));
+   }
+}
+}

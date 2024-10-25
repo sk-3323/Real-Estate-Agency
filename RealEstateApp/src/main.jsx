@@ -9,10 +9,11 @@ import Detail from "./routes/DetailPage/Detail.jsx";
 import Profile from "./routes/ProfilePage/Profile.jsx";
 import Register from "./routes/register/Register.jsx";
 import Login from "./routes/login/Login.jsx";
-import { AuthContext, AuthContextProvider } from "./context/AuthContext.jsx";
+import { AuthContextProvider } from "./context/AuthContext.jsx";
+import { SocketContextProvider } from "./context/SocketContext.jsx";
 import ProfileUpdatePage from "./routes/profileUpdatePage/ProfileUpdatePage.jsx";
 import NewPostPage from "./routes/newPostPage/NewPostPage.jsx";
-import { listPageLoader, singlePostLoader } from "./lib/loader.js";
+import { listPageLoader, profilePost, singlePost } from "./lib/loader.js";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/item/:id",
-        loader: singlePostLoader,
+        loader: singlePost,
         element: <Detail />,
       },
       {
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/profile",
+        loader: profilePost,
         element: <Profile />,
       },
       {
@@ -65,8 +67,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <AuthContextProvider>
-    <StrictMode>
-      <RouterProvider router={router}></RouterProvider>
-    </StrictMode>
+    <SocketContextProvider>
+      <StrictMode>
+        <RouterProvider router={router}></RouterProvider>
+      </StrictMode>
+    </SocketContextProvider>
   </AuthContextProvider>
 );

@@ -7,7 +7,8 @@ const Card = ({ item }) => {
       <div className="carditem flex w-full gap-11">
         <Link to={`/item/${item.id}`} className="imgContainer w-1/2">
           <img
-            src={item.img}
+            // src={item.images[2]}
+            src={item.images[0]}
             alt=""
             className="itemImage"
             height={300}
@@ -24,12 +25,12 @@ const Card = ({ item }) => {
             </Link>
             <p className="font-light text-sm flex justify-start gap-2">
               <span>
-                <span class="material-symbols-outlined">location_on</span>
+                <span className="material-symbols-outlined">location_on</span>
               </span>
               <span>{item.address}</span>
             </p>
             <h1 className="font-smibold">
-              <span className="bg-yellow-100 px-3 py-2">${item.price}</span>
+              <span className="bg-yellow-100 px-3 py-2">INR. {item.price}</span>
             </h1>
             <p className="text-gray-500 font-light text-sm flex gap-4">
               <span className="bg-zinc-100 px-3 py-1 rounded-xl">

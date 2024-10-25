@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./Navbar.scss";
-import logo from "../../assets/react.svg";
+import logo from "../../assets/home.png";
 import SignupBtn from "./SignupBtn";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -22,9 +22,9 @@ const Navbar = () => {
         <div className="left">
           <ul className="navitems">
             <li>
-              <a href="#" className="logo">
+              <a href="/" className="logo">
                 <img src={logo} alt="" />
-                <span>RealEstate</span>
+                <span className="logo">LuxeLiving</span>
               </a>
             </li>
             <li>

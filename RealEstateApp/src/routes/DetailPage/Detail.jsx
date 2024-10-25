@@ -1,13 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Detail.scss";
 import Slider from "../../components/Slider/Slider";
 import { singlePostData, userData } from "../../lib/dummydata";
 import Map from "../../components/Map/Map";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import DOMPurify from "dompurify";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const Detail = () => {
   const singlePostData = useLoaderData();
+  const { currentUser } = useContext(AuthContext);
+  const [saved, setSaved] = useState(singlePostData.isSaved);
+
+  const handleSave = async (e) => {
+    setSaved((prev) => !prev);
+    if (!currentUser) {
+      redirect("/login");
+    }
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/save",
+        { postId: singlePostData.id },
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (error) {
+      setSaved((prev) => !prev);
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -25,7 +48,7 @@ const Detail = () => {
                     </span>
                     <span>{singlePostData.address}</span>
                   </div>
-                  <div className="price">${singlePostData.price}</div>
+                  <div className="price">INR. {singlePostData.price}</div>
                 </div>
                 <div className="user">
                   <img src={singlePostData.user.avatar} alt="" />
@@ -129,9 +152,12 @@ const Detail = () => {
                 <img src="/chat.png" alt="" />
                 Send a Message
               </button>
-              <button>
+              <button
+                onClick={handleSave}
+                style={{ backgroundColor: saved ? "#fece51" : "white" }}
+              >
                 <img src="/save.png" alt="" />
-                Save the Place
+                {saved ? "Post being saved" : "Save the Place"}
               </button>
             </div>
           </div>

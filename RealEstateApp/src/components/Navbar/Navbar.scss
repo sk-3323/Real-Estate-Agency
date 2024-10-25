@@ -5,6 +5,9 @@ nav{
     justify-content: space-between;
     align-items: center;
 }
+.logo{
+    color: #1B1369;
+}
 .right{
     // padding: 0px 10px;
     flex: 2;
@@ -107,13 +110,15 @@ ul li{
 .logo{
     display: flex;
     justify-content: center;
+    align-items: center;
     gap:8px;
 
     img{
-        width: 40px;
+        width: 70px;
     }
     span{
-        font-weight: 600;
+        font-weight: 700;
+        font-family: callibri;
         font-size: 20px;
     }
 }

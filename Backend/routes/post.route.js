@@ -13,7 +13,7 @@ const router = express.Router();
 router.get("/", getPosts);
 
 //single post
-router.get("/:id", getPost);
+router.get("/:id", verifyToken, getPost);
 
 //handle CRUD operations
 

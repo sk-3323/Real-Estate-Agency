@@ -2,10 +2,13 @@ import axios from "axios";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/List/List";
 import "./profile.scss";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Suspense, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
+import Loading from "../../components/Loading/Loading.jsx";
+import Card from "../../components/Card/Card.jsx";
 function Profile() {
+  const data = useLoaderData();
   const { currentUser, updateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -58,16 +61,39 @@ function Profile() {
               <button>Create New Post</button>
             </Link>
           </div>
-          <List />
+          <Suspense fallback={<Loading />}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading properties.....</p>}
+            >
+              {(postResponse) => <List posts={postResponse.data.profilePost} />}
+            </Await>
+          </Suspense>
+          {/* <List /> */}
+
           <div className="title">
             <h1>Saved List</h1>
           </div>
-          <List />
+          <Suspense fallback={<Loading />}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading properties.....</p>}
+            >
+              {(postResponse) => <List posts={postResponse.data.savedPost} />}
+            </Await>
+          </Suspense>
         </div>
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Chat />
+          <Suspense fallback={<Loading />}>
+            <Await
+              resolve={data.chatResponse}
+              errorElement={<p>Error loading chats</p>}
+            >
+              {(chatResponse) => <Chat chatResponse={chatResponse} />}
+            </Await>
+          </Suspense>
         </div>
       </div>
     </div>
