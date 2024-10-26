@@ -142,3 +142,24 @@ export const fetchProfileList = async (req, res) => {
     res.status(400).json({ message: "Error for Get Posts" });
   }
 };
+
+export const fetchNotificationCount = async (req, res) => {
+  const tokenUserId = req.userId;
+  try {
+    const unreadChatCount = await prisma.chat.count({
+      where: {
+        userIDs: {
+          hasSome: [tokenUserId],
+        },
+        NOT: {
+          seenBy: {
+            hasSome: [tokenUserId],
+          },
+        },
+      },
+    });
+    res.status(200).json(unreadChatCount);
+  } catch (error) {
+    res.status(400).json({ message: "Error for fetching notifications" });
+  }
+};

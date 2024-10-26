@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Navbar.scss";
 import logo from "../../assets/home.png";
 import SignupBtn from "./SignupBtn";
@@ -8,13 +8,24 @@ import Hamburger from "hamburger-react";
 import { easeIn, easeInOut, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext.jsx";
+import { useNotification } from "../../lib/notificationStore.js";
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
-
+  // const [notifi, setNotification] = useState(0);
   const menuAction = () => {
     setOpen(!isOpen);
   };
+
+  const fetch = useNotification((state) => state.fetch);
+  fetch();
+  const number = useNotification((state) => state.notification);
+
+  // setNotification(number);
+  // if (currentUser) {
+  //   fetch();
+  // }
+  console.log(number);
 
   return (
     <>
@@ -43,10 +54,21 @@ const Navbar = () => {
         </div>
         <div className="right bg-white min-h-full flex justify-end lg:bg-[#FCF6F3]">
           {currentUser ? (
-            <Link to={`/profile`} className="user">
-              <img src={currentUser.avatar || "/noavatar.jpg"} alt="" />
-              <span>{currentUser.username}</span>
-            </Link>
+            <>
+              <h1>Welcome,</h1>
+              <Link
+                to={`/profile`}
+                className="user relative px-4 py-2 bg-[#FECE51] rounded-lg"
+              >
+                {number !== 0 && (
+                  <div className="h-6 w-6 bg-red-500 flex justify-center items-center rounded-full text-white absolute -top-3 -right-2">
+                    {number}
+                  </div>
+                )}
+                <img src={currentUser.avatar || "/noavatar.jpg"} alt="" />
+                <span>{currentUser.username}</span>
+              </Link>
+            </>
           ) : (
             <ul>
               <li>

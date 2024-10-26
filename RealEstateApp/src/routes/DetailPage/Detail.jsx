@@ -37,7 +37,7 @@ const Detail = () => {
       <div className="detailpage">
         <div className="detail">
           <div className="wrapper">
-            <Slider images={singlePostData.images} />
+            <Slider images={singlePostData.images || "./noproperty.png"} />
             <div className="info">
               <div className="top">
                 <div className="post">

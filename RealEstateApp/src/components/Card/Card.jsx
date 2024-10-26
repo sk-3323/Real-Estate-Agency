@@ -8,7 +8,7 @@ const Card = ({ item }) => {
         <Link to={`/item/${item.id}`} className="imgContainer w-1/2">
           <img
             // src={item.images[2]}
-            src={item.images[0]}
+            src={item.images[0] || "./noproperty.png"}
             alt=""
             className="itemImage"
             height={300}

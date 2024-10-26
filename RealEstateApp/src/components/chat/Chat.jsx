@@ -1,20 +1,26 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./chat.scss";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { format } from "timeago.js";
 import { SocketContext } from "../../context/SocketContext";
+import { useNotification } from "../../lib/notificationStore.js";
 function Chat({ chatResponse }) {
   const [chat, setChat] = useState(null);
   const { currentUser } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
   const allchat = chatResponse.data;
+  const messageEndRef = useRef();
+  const decrese = useNotification((state) => state.decrease);
 
   const handleOpenChat = async (id, reciever) => {
     try {
       const res = await axios.get(`http://localhost:3000/api/chats/${id}`, {
         withCredentials: true,
       });
+      if (!res.data.seenBy.includes(currentUser.id)) {
+        decrese();
+      }
       setChat({ ...res.data, reciever });
     } catch (error) {
       console.log(error);
@@ -46,6 +52,8 @@ function Chat({ chatResponse }) {
   };
 
   useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+
     const read = async () => {
       try {
         await axios.put(`http://localhost:3000/api/chats/${chat.id}`);
@@ -110,6 +118,7 @@ function Chat({ chatResponse }) {
                     msg.userId === currentUser.id ? "flex-end" : "flex-start",
                   textAlign: msg.userId === currentUser.id ? "right" : "left",
                 }}
+                ref={messageEndRef}
               >
                 <p>{msg.text}</p>
                 <span>{format(msg.createdAt)}</span>
